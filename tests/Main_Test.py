@@ -1,5 +1,6 @@
 from typing import Callable, List, Dict
 from inspect import getmembers, isfunction
+import inspect
 import os
 import importlib.util
 from discord.ext.commands import context
@@ -42,4 +43,7 @@ async def run(ctx: context) -> None:
     print("Running tests...")
     for test in tests:
         await util.print_and_send(ctx, f"Running test {test.__name__}")
-        test()
+        if inspect.iscoroutinefunction(test):
+            await test()
+        else: 
+            test()
