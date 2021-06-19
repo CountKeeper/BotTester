@@ -1,3 +1,8 @@
 /BotTesterData
 BotTesterData
 .gitmodules
+__pycache__
+tests/__pycache__
+util/__pycache__
+/BotTesterVenv
+BotTesterVenv
