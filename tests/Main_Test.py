@@ -1,5 +1,5 @@
 from typing import Callable, List, Dict
-from inspect import getmembers, isfunction
+from inspect import getmembers, iscoroutinefunction, isfunction
 import inspect
 import os
 import importlib.util
@@ -9,7 +9,7 @@ from util import util
 dir = os.getcwd()
 dir += "/tests"
 print(dir)
-tests: List[Callable] = []
+tests: list[tuple[Callable, bool]] = []
 def is_valid_script(file):
     module = __name__.split(".")[-1]
     name = file.split(".")[0]
@@ -34,7 +34,7 @@ for file in os.listdir(dir):
                 module_name = module_name.split(".")[0]
                 if module_name == name:
                     print(f"{name} is the right function")
-                    tests.append(value)
+                    tests.append((value, iscoroutinefunction(value)))
 
 async def run(ctx: context) -> None:
     """
@@ -42,8 +42,10 @@ async def run(ctx: context) -> None:
     """
     print("Running tests...")
     for test in tests:
-        await util.print_and_send(ctx, f"Running test {test.__name__}")
-        if inspect.iscoroutinefunction(test):
-            await test(ctx)
+        function = test[0]
+        is_async = test[1]
+        await util.print_and_send(ctx, f"Running test {function.__name__}")
+        if is_async:
+            await function(ctx)
         else: 
-            test()
+            function()
