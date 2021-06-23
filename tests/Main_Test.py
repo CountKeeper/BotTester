@@ -44,6 +44,6 @@ async def run(ctx: context) -> None:
     for test in tests:
         await util.print_and_send(ctx, f"Running test {test.__name__}")
         if inspect.iscoroutinefunction(test):
-            await test()
+            await test(ctx)
         else: 
             test()
