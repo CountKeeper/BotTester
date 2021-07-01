@@ -19,6 +19,8 @@ def is_valid_script(file):
     if name == module:
         return False
     return extension == "py"
+
+
 for file in os.listdir(dir):
     if is_valid_script(file):
         path_dir = dir + "/" + str(file)
@@ -42,8 +44,7 @@ async def run(ctx: context) -> None:
     """
     print("Running tests...")
     for test in tests:
-        function = test[0]
-        is_async = test[1]
+        function, is_async = test
         await util.print_and_send(ctx, f"Running test {function.__name__}")
         if is_async:
             await function(ctx)
