@@ -3,13 +3,13 @@
 #- Split main.py into several files. probably utils.py, bot.py, commands.py, and maybe one file for every command
 #- 
 import discord
-import Config
+import config
 from discord.ext import commands
 from tests import Main_Test
 
 
-PREFIX = Config.PREFIX
-BOT_TOKEN = Config.BOT_TOKEN
+PREFIX = config.PREFIX
+BOT_TOKEN = config.BOT_TOKEN
 intents = discord.Intents.default()
 intents.members = True
 intents.presences = True
